@@ -1,0 +1,1 @@
+delete from public.gallery_images where url = '/demo/gallery-street.jpg';
