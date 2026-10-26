@@ -24,7 +24,7 @@ function Login() {
   const [signedIn, setSignedIn] = useState(false);
 
   const afterAuth = async () => {
-    if (await checkOwner()) return navigate({ to: "/admin", replace: true });
+    if (await checkOwner()) { navigate({ to: "/admin", replace: true }); return; }
     const { data: exists } = await supabase.rpc("owner_exists");
     setSignedIn(true);
     setStage(exists ? "not-owner" : "claim");
@@ -38,7 +38,7 @@ function Login() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse({ email, password });
-    if (!parsed.success) return toast.error("Enter a valid email and a password of at least 8 characters.");
+    if (!parsed.success) return void toast.error("Enter a valid email and a password of at least 8 characters.");
     setBusy(true);
     try {
       if (mode === "signin") {

@@ -26,7 +26,7 @@ export async function uploadImage(file: File, folder: string): Promise<string> {
 /** Best-effort removal of an uploaded file given its stored URL. */
 export async function removeUploaded(url: string) {
   const m = url.match(/\/object\/sign\/media\/([^?]+)/);
-  if (m) await supabase.storage.from("media").remove([decodeURIComponent(m[1])]);
+  if (m) await supabase.storage.from("media").remove([decodeURIComponent(m[1]!)]);
 }
 
 export async function checkOwner(): Promise<boolean> {

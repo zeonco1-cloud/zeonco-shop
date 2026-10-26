@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 export const inputCls = "w-full border border-input bg-background px-3 py-2.5 text-base md:text-sm";
 
-export function Field({ label, htmlFor, hint, children }: { label: string; htmlFor?: string; hint?: string; children: ReactNode }) {
+export function Field({ label, htmlFor, hint, children }: { label: string; htmlFor?: string; hint?: string | undefined; children: ReactNode }) {
   return (
     <div>
       <label htmlFor={htmlFor} className="eyebrow mb-1.5 block text-muted-foreground">{label}</label>

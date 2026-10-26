@@ -25,7 +25,7 @@ function Gallery() {
       ? await supabase.from("gallery_images").insert(items.map((it, i) => ({ url: it.url, alt: it.alt.slice(0, 150), sort_order: i })))
       : { error: null };
     setSaving(false);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     toast.success("Gallery saved");
     qc.invalidateQueries();
   };
