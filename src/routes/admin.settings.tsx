@@ -39,21 +39,21 @@ function SettingsPage() {
 
   const save = async () => {
     const wa = s.whatsapp_number.trim();
-    if (wa && !normalizeWhatsApp(wa)) return toast.error("WhatsApp number must include the country code, e.g. +91 98765 43210");
-    for (const k of ["instagram_url", "facebook_url", "youtube_url", "x_url"] as const) if (!urlOk(s[k])) return toast.error("Social links must start with https://");
-    if (!s.hero_cta_link.startsWith("/") && !urlOk(s.hero_cta_link)) return toast.error("Hero button link must be a page like /shop or an https:// link");
+    if (wa && !normalizeWhatsApp(wa)) return void toast.error("WhatsApp number must include the country code, e.g. +91 98765 43210");
+    for (const k of ["instagram_url", "facebook_url", "youtube_url", "x_url"] as const) if (!urlOk(s[k])) return void toast.error("Social links must start with https://");
+    if (!s.hero_cta_link.startsWith("/") && !urlOk(s.hero_cta_link)) return void toast.error("Hero button link must be a page like /shop or an https:// link");
     let guide: SizeGuide;
     try {
       guide = JSON.parse(guideText || "{}");
       if (typeof guide !== "object" || Array.isArray(guide)) throw new Error();
     } catch {
-      return toast.error("Size guide isn't valid — check the format");
+      return void toast.error("Size guide isn't valid — check the format");
     }
     setSaving(true);
     const { id, updated_at, ...rest } = s;
     const { error } = await supabase.from("store_settings").update({ ...rest, whatsapp_number: wa ? `+${normalizeWhatsApp(wa)}` : "", size_guide: guide as never }).eq("id", 1);
     setSaving(false);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     toast.success("Settings saved");
     qc.invalidateQueries();
   };

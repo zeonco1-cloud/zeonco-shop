@@ -18,16 +18,16 @@ function Categories() {
     queryFn: async () => (await supabase.from("categories").select("*").order("sort_order")).data ?? [],
   });
   const refresh = () => qc.invalidateQueries();
-  const update = async (id: string, patch: Record<string, unknown>) => {
+  const update = async (id: string, patch: { image_url?: string | null; name?: string; visible?: boolean }) => {
     const { error } = await supabase.from("categories").update(patch).eq("id", id);
     if (error) toast.error(error.message);
     refresh();
   };
   const add = async () => {
     const n = name.trim();
-    if (!n || n.length > 60) return toast.error("Enter a category name (max 60 characters)");
+    if (!n || n.length > 60) return void toast.error("Enter a category name (max 60 characters)");
     const { error } = await supabase.from("categories").insert({ name: n, slug: slugify(n), sort_order: cats.length + 1 });
-    if (error) return toast.error(error.code === "23505" ? "A category with that name exists" : error.message);
+    if (error) return void toast.error(error.code === "23505" ? "A category with that name exists" : error.message);
     setName("");
     refresh();
   };

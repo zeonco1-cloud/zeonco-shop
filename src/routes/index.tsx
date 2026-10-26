@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-function SectionHead({ eyebrow, title, to, search, cta }: { eyebrow: string; title: string; to: string; search?: Record<string, unknown>; cta?: string }) {
+function SectionHead({ eyebrow, title, to, search, cta }: { eyebrow: string; title: string; to: string; search?: any; cta?: string }) {
   return (
     <div className="mb-8 flex items-end justify-between gap-4">
       <div>

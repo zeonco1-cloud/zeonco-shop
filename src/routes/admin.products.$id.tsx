@@ -79,7 +79,7 @@ function Editor() {
       original_price: f.original_price === "" ? null : Number(f.original_price),
       sizes: f.sizes.split(",").map((s) => s.trim()).filter(Boolean),
     });
-    if (!parsed.success) return toast.error(parsed.error.issues[0].message);
+    if (!parsed.success) return void toast.error(parsed.error.issues[0]?.message ?? "Check the form");
     const v = parsed.data;
     setSaving(true);
     try {
@@ -115,7 +115,7 @@ function Editor() {
 
   const remove = async () => {
     const { error } = await supabase.from("products").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) return void toast.error(error.message);
     await qc.invalidateQueries();
     toast.success("Product deleted");
     navigate({ to: "/admin/products" });

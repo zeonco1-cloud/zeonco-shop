@@ -10,7 +10,7 @@ export function PageHeader({ eyebrow, title, children }: { eyebrow?: string; tit
   );
 }
 
-export function Prose({ text, fallback }: { text?: string | null; fallback: ReactNode }) {
+export function Prose({ text, fallback }: { text?: string | null | undefined; fallback: ReactNode }) {
   if (!text?.trim()) return <div className="space-y-4 leading-relaxed text-foreground/85">{fallback}</div>;
   return (
     <div className="space-y-4 leading-relaxed text-foreground/85">
