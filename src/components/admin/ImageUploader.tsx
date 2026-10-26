@@ -62,7 +62,7 @@ export function ImageList({ items, onChange, folder }: { items: ImgItem[]; onCha
     const j = i + d;
     if (j < 0 || j >= items.length) return;
     const next = [...items];
-    [next[i], next[j]] = [next[j], next[i]];
+    const t = next[i]!; next[i] = next[j]!; next[j] = t;
     onChange(next);
   };
   return (

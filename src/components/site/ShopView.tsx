@@ -8,24 +8,24 @@ import { ProductGrid } from "./ProductCard";
 import { EmptyState } from "./PageShell";
 
 export type ShopSearch = {
-  q?: string;
-  cat?: string;
-  size?: string;
-  color?: string;
-  min?: number;
-  max?: number;
-  sale?: boolean;
-  new?: boolean;
-  featured?: boolean;
-  sort?: "newest" | "price-asc" | "price-desc";
+  q?: string | undefined;
+  cat?: string | undefined;
+  size?: string | undefined;
+  color?: string | undefined;
+  min?: number | undefined;
+  max?: number | undefined;
+  sale?: boolean | undefined;
+  new?: boolean | undefined;
+  featured?: boolean | undefined;
+  sort?: "newest" | "price-asc" | "price-desc" | undefined;
 };
 
 export function validateShopSearch(s: Record<string, unknown>): ShopSearch {
   const str = (v: unknown) => (typeof v === "string" && v.length <= 80 ? v : undefined);
   const num = (v: unknown) => (v === undefined || v === "" ? undefined : Number.isFinite(Number(v)) ? Number(v) : undefined);
   const bool = (v: unknown) => (v === true || v === "true" ? true : undefined);
-  const sort = ["newest", "price-asc", "price-desc"].includes(String(s.sort)) ? (s.sort as ShopSearch["sort"]) : undefined;
-  return { q: str(s.q), cat: str(s.cat), size: str(s.size), color: str(s.color), min: num(s.min), max: num(s.max), sale: bool(s.sale), new: bool(s.new), featured: bool(s.featured), sort };
+  const sort = ["newest", "price-asc", "price-desc"].includes(String(s["sort"])) ? (s["sort"] as ShopSearch["sort"]) : undefined;
+  return { q: str(s["q"]), cat: str(s["cat"]), size: str(s["size"]), color: str(s["color"]), min: num(s["min"]), max: num(s["max"]), sale: bool(s["sale"]), new: bool(s["new"]), featured: bool(s["featured"]), sort };
 }
 
 const PAGE = 24;
