@@ -146,6 +146,11 @@
 @utility animate-reveal { animation: reveal 1.6s cubic-bezier(.2,.7,.2,1) both; }
 @utility animate-sway { animation: sway 1.4s ease-in-out; transform-origin: 50% 0; }
 
+/* Clothing rail only: transforms never change sibling layout positions. */
+.rail-garment { transition: transform 600ms ease, filter 600ms ease, opacity 600ms ease; }
+.rail-view { transition: opacity 450ms ease; }
+.rail-details { animation: rise 450ms ease both; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
