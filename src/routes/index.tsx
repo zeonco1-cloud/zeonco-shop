@@ -64,7 +64,7 @@ function Home() {
         <div className="bg-hero-scrim absolute inset-0" />
         <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-12 text-ink-foreground md:justify-center md:px-8 md:pb-0">
           <p className="eyebrow animate-rise text-ink-foreground/80">{s?.tagline || "Street Culture Redefined."}</p>
-          <h1 className="display-xl animate-rise mt-4 max-w-3xl text-[17vw] [animation-delay:120ms] md:text-[8.5rem]">
+          <h1 className="display-xl animate-rise mt-4 max-w-3xl text-[14.5vw] [animation-delay:120ms] md:text-[8.5rem]">
             {headline}
           </h1>
           <p className="animate-rise mt-5 max-w-md text-base text-ink-foreground/85 [animation-delay:240ms] md:text-lg">{s?.hero_subtext}</p>
