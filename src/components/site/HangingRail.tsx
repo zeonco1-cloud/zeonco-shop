@@ -28,11 +28,16 @@ export function HangingRail({ products }: { products: Product[] }) {
   const views = railViews(selected);
   const sizes = railSizes(selected);
   const scrollBy = (dir: number) => scroller.current?.scrollBy({ left: dir * scroller.current.clientWidth * 0.7, behavior: "smooth" });
-  const activate = (id: string) => {
+  const activate = (id: string, item: HTMLButtonElement) => {
     if (id === selected.id) return;
     setActive(id);
     setShowBack(false);
     setSelectedSize(null);
+    const container = scroller.current;
+    const slot = item.parentElement;
+    if (container && slot && window.matchMedia("(max-width: 767px)").matches) {
+      container.scrollTo({ left: slot.offsetLeft - (container.clientWidth - slot.clientWidth) / 2, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+    }
   };
 
   return (
@@ -72,7 +77,7 @@ export function HangingRail({ products }: { products: Product[] }) {
                 <Button
                   variant="ghost"
                   type="button"
-                  onClick={() => activate(p.id)}
+                  onClick={(event) => activate(p.id, event.currentTarget)}
                   aria-pressed={isActive}
                   aria-label={`${p.name} — select clothing`}
                   className={`rail-garment relative block h-auto w-full origin-top rounded-none p-0 hover:bg-transparent ${isActive ? "translate-y-4 scale-[1.22]" : "scale-100 blur-[3px] opacity-55"}`}
