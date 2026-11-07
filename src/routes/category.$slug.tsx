@@ -19,6 +19,8 @@ export const Route = createFileRoute("/category/$slug")({
         { name: "description", content: `Shop ${name} from ZEON.CO — premium streetwear.` },
         { property: "og:title", content: `${name} — ZEON.CO` },
         { property: "og:description", content: `Shop ${name} from ZEON.CO.` },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
     };
   },

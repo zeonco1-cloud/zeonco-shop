@@ -23,7 +23,7 @@ export const Route = createFileRoute("/product/$slug")({
     if (!p) return { meta: [{ title: "Product unavailable — ZEON.CO" }, { name: "robots", content: "noindex" }] };
     const desc = p.short_description || `${p.name} from ZEON.CO`;
     const img = p.product_images[0]?.url;
-    const abs = img?.startsWith("http") ? img : undefined;
+    const abs = img?.startsWith("https://") ? img : undefined;
     return {
       meta: [
         { title: `${p.name} — ZEON.CO` },
@@ -31,6 +31,7 @@ export const Route = createFileRoute("/product/$slug")({
         { property: "og:title", content: `${p.name} — ZEON.CO` },
         { property: "og:description", content: desc },
         { property: "og:type", content: "product" },
+        { name: "twitter:card", content: "summary_large_image" },
         ...(abs ? [{ property: "og:image", content: abs }, { name: "twitter:image", content: abs }] : []),
       ],
       scripts: [

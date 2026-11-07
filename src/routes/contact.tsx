@@ -11,6 +11,8 @@ export const Route = createFileRoute("/contact")({
       { name: "description", content: "Get in touch with ZEON.CO on WhatsApp or email." },
       { property: "og:title", content: "Contact ZEON.CO" },
       { property: "og:description", content: "Talk to ZEON.CO on WhatsApp." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(settingsQuery()),

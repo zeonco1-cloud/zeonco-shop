@@ -14,3 +14,4 @@
 - Uploaded media lives in the private `media` bucket (public buckets are blocked by workspace policy); store long-lived signed URLs in rows.
 - Public storefront reads go through query options in `src/lib/store.ts` with SSR query hydration; price/discount/WhatsApp rules live in `src/lib/pricing.ts` with tests.
 - Clothing rail front/back views use product image alt labels containing back/backside/rear; never substitute an unrelated photo for a missing backside. This preserves truthful product imagery without changing the schema.
+- Rail eligibility and Front/Back image assignment are centralized in `src/lib/clothing-rail.ts`; the homepage refreshes products periodically so editor changes appear without a reload. The rack uses fixed sibling slots and CSS perspective, with selection transforms applied only after click.

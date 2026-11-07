@@ -11,6 +11,8 @@ export const Route = createFileRoute("/size-guide")({
       { name: "description", content: "Find your size for ZEON.CO tees, shirts and jeans." },
       { property: "og:title", content: "Size guide — ZEON.CO" },
       { property: "og:description", content: "ZEON.CO measurement tables." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(settingsQuery()),

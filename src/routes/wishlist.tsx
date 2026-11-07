@@ -12,6 +12,8 @@ export const Route = createFileRoute("/wishlist")({
       { name: "description", content: "Pieces you've saved from ZEON.CO." },
       { property: "og:title", content: "Wishlist — ZEON.CO" },
       { property: "og:description", content: "Your saved ZEON.CO pieces." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
     ],
   }),

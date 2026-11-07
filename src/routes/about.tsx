@@ -10,6 +10,8 @@ export const Route = createFileRoute("/about")({
       { name: "description", content: "The story behind ZEON.CO — Street Culture Redefined." },
       { property: "og:title", content: "About ZEON.CO" },
       { property: "og:description", content: "The story behind ZEON.CO streetwear." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(settingsQuery()),

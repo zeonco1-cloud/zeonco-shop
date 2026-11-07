@@ -8,7 +8,7 @@ import { slugify } from "@/lib/pricing";
 import { AdminTitle, Toggle, btnPrimary, inputCls } from "@/components/admin/ui";
 import { SingleImage } from "@/components/admin/ImageUploader";
 
-export const Route = createFileRoute("/admin/categories")({ component: Categories });
+export const Route = createFileRoute("/admin/categories")({ head: () => ({ meta: [ { title: "Categories — ZEON.CO Admin" }, { name: "description", content: "Manage ZEON.CO product categories." }, { property: "og:title", content: "Categories — ZEON.CO Admin" }, { property: "og:description", content: "Manage ZEON.CO product categories." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex, nofollow" } ] }), component: Categories });
 
 function Categories() {
   const qc = useQueryClient();

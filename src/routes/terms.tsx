@@ -10,6 +10,8 @@ export const Route = createFileRoute("/terms")({
       { name: "description", content: "Terms for using the ZEON.CO website." },
       { property: "og:title", content: "Terms — ZEON.CO" },
       { property: "og:description", content: "Terms for using the ZEON.CO website." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(settingsQuery()),

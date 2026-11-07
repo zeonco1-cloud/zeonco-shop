@@ -10,6 +10,8 @@ export const Route = createFileRoute("/privacy-policy")({
       { name: "description", content: "How ZEON.CO handles your information." },
       { property: "og:title", content: "Privacy policy — ZEON.CO" },
       { property: "og:description", content: "How ZEON.CO handles your information." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(settingsQuery()),

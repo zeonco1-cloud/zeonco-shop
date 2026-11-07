@@ -5,9 +5,10 @@ import { categoriesQuery, galleryQuery, productsQuery, settingsQuery } from "@/l
 import { discountPercent } from "@/lib/pricing";
 import { ProductGrid } from "@/components/site/ProductCard";
 import { HangingRail } from "@/components/site/HangingRail";
+import { shirtsOnRail } from "@/lib/clothing-rail";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
+  head: ({ loaderData }) => ({
     meta: [
       { title: "ZEON.CO — Street Culture Redefined | Premium Streetwear India" },
       { name: "description", content: "Premium streetwear tees, shirts, denim and accessories. Explore the ZEON.CO collection and enquire on WhatsApp." },
@@ -15,6 +16,10 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Premium streetwear tees, shirts, denim and accessories from ZEON.CO." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...(loaderData?.[0]?.hero_image_url?.startsWith("https://") ? [
+        { property: "og:image", content: loaderData[0].hero_image_url },
+        { name: "twitter:image", content: loaderData[0].hero_image_url },
+      ] : []),
     ],
   }),
   loader: ({ context: { queryClient } }) =>
@@ -46,13 +51,13 @@ function SectionHead({ eyebrow, title, to, search, cta }: { eyebrow: string; tit
 function Home() {
   const { data: s } = useSuspenseQuery(settingsQuery());
   const { data: cats } = useSuspenseQuery(categoriesQuery());
-  const { data: products } = useSuspenseQuery(productsQuery());
+  const { data: products } = useSuspenseQuery({ ...productsQuery(), refetchInterval: 15_000 });
   const { data: gallery } = useSuspenseQuery(galleryQuery());
 
   const newArrivals = products.filter((p) => p.is_new).slice(0, 8);
   const featured = products.filter((p) => p.is_featured).slice(0, 4);
   const sale = products.filter((p) => p.on_sale && discountPercent(p.original_price, p.price)).slice(0, 4);
-  const rail = products.filter((p) => p.in_rail).sort((a, b) => a.rail_order - b.rail_order);
+  const rail = shirtsOnRail(products);
   const heroImg = s?.hero_image_url || "/demo/hero.jpg";
   const headline = s?.hero_headline || "OWN YOUR EVERYDAY.";
 

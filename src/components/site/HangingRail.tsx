@@ -1,19 +1,19 @@
 import { Link } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useRef, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import type { Product } from "@/lib/store";
-import { mainImage } from "@/lib/store";
+import { railSizes, railViews } from "@/lib/clothing-rail";
 import { PriceTag } from "./ProductCard";
 
-export function railViews(product: Pick<Product, "product_images">) {
-  const back = product.product_images.find((image) => /\b(back(?:side)?|rear)\b/i.test(image.alt));
-  const front = product.product_images.find((image) => image !== back)?.url ?? mainImage(product);
-  return { front, back: back?.url };
-}
+export { railSizes, railViews } from "@/lib/clothing-rail";
 
-export function railSizes(product: Pick<Product, "sizes">) {
-  return [...new Set(product.sizes.map((size) => size.trim()).filter(Boolean))];
+function Hanger() {
+  return <svg aria-hidden="true" viewBox="0 0 180 70" className="rail-hanger">
+    <path className="rail-hook" d="M90 25V17c0-5 9-6 9-12a9 9 0 0 0-18 0" />
+    <path className="rail-wood" d="M90 24 18 54Q12 59 20 62H160Q168 59 162 54L90 24Z" />
+    <path className="rail-hook" d="m33 54 57-23 57 23" />
+  </svg>;
 }
 
 export function HangingRail({ products }: { products: Product[] }) {
@@ -21,22 +21,22 @@ export function HangingRail({ products }: { products: Product[] }) {
   const [active, setActive] = useState<string | null>(null);
   const [showBack, setShowBack] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  if (!products.length) return null;
+  const [offset, setOffset] = useState(0);
 
-  const selected = products.find((p) => p.id === active) ?? products[0];
-  if (!selected) return null;
-  const views = railViews(selected);
-  const sizes = railSizes(selected);
+  const selected = products.find((p) => p.id === active);
+  const views = selected ? railViews(selected) : { front: undefined, back: undefined };
+  const sizes = selected ? railSizes(selected) : [];
   const scrollBy = (dir: number) => scroller.current?.scrollBy({ left: dir * scroller.current.clientWidth * 0.7, behavior: "smooth" });
   const activate = (id: string, item: HTMLButtonElement) => {
-    if (id === selected.id) return;
+    if (id === selected?.id) return;
     setActive(id);
     setShowBack(false);
     setSelectedSize(null);
     const container = scroller.current;
-    const slot = item.parentElement;
-    if (container && slot && window.matchMedia("(max-width: 767px)").matches) {
-      container.scrollTo({ left: slot.offsetLeft - (container.clientWidth - slot.clientWidth) / 2, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+    if (container) {
+      const bounds = item.getBoundingClientRect();
+      const frame = container.getBoundingClientRect();
+      setOffset(frame.left + frame.width / 2 - bounds.left - bounds.width / 2);
     }
   };
 
@@ -46,6 +46,7 @@ export function HangingRail({ products }: { products: Product[] }) {
         <div>
           <p className="eyebrow text-accent">The showroom</p>
           <h2 id="rail-title" className="display-xl mt-2 text-4xl md:text-6xl">On the rail</h2>
+          <p className="eyebrow mt-3 text-muted-foreground">Shirts / T-shirts</p>
         </div>
         <div className="hidden gap-2 md:flex">
           <Button variant="outline" size="icon" onClick={() => scrollBy(-1)} aria-label="Scroll rail left" className="h-11 w-11 rounded-none border-foreground bg-transparent hover:bg-foreground hover:text-background">
@@ -57,22 +58,22 @@ export function HangingRail({ products }: { products: Product[] }) {
         </div>
       </div>
 
-      <div className="relative mt-10">
-        {/* rail bar */}
-        <div aria-hidden className="pointer-events-none absolute left-0 right-0 top-[48px] h-2.5 rounded-full bg-rail shadow-rail" />
+      <div className={`rail-stage mt-10 ${selected ? "rail-has-selection" : ""}`}>
+        <div aria-hidden className="rail-bar"><span /><span /></div>
         <div
           ref={scroller}
-          className="scrollbar-none relative flex snap-x snap-mandatory gap-2 overflow-x-auto px-12 pb-20 pt-[30px] md:gap-6 md:px-20"
+          className="rail-track scrollbar-none"
           role="list"
+          onScroll={() => { if (active) { setActive(null); setShowBack(false); setSelectedSize(null); } }}
         >
           {products.map((p) => {
             const images = railViews(p);
-            const isActive = selected.id === p.id;
+            const isActive = selected?.id === p.id;
             return (
               <div
                 key={p.id}
                 role="listitem"
-                className={`relative flex w-[54vw] max-w-[240px] shrink-0 snap-center flex-col items-center md:w-[240px] ${isActive ? "z-20" : "z-0"}`}
+                className={`rail-slot ${isActive ? "z-20" : "z-0"}`}
               >
                 <Button
                   variant="ghost"
@@ -80,16 +81,18 @@ export function HangingRail({ products }: { products: Product[] }) {
                   onClick={(event) => activate(p.id, event.currentTarget)}
                   aria-pressed={isActive}
                   aria-label={`${p.name} — select clothing`}
-                  className={`rail-garment relative block h-auto w-full origin-top rounded-none p-0 hover:bg-transparent ${isActive ? "translate-y-4 scale-[1.22]" : "scale-100 blur-[3px] opacity-55"}`}
+                  style={{ "--rail-offset": `${isActive ? offset : 0}px` } as CSSProperties}
+                  className={`rail-garment rounded-none p-0 hover:bg-transparent ${isActive ? "rail-selected" : ""}`}
                 >
-                  <div className="relative aspect-[3/4] w-full">
+                  <Hanger />
+                  <div className="rail-shirt">
                     {images.front ? (
                       <>
                         <img src={images.front} alt={`${p.name} — front`} loading="lazy" width={300} height={400} className={`rail-view absolute inset-0 h-full w-full object-contain object-top shadow-garment ${isActive && showBack && images.back ? "opacity-0" : "opacity-100"}`} />
                         {images.back && <img src={images.back} alt={`${p.name} — back`} loading="lazy" width={300} height={400} className={`rail-view absolute inset-0 h-full w-full object-contain object-top shadow-garment ${isActive && showBack ? "opacity-100" : "opacity-0"}`} />}
                       </>
                     ) : (
-                      <div className="mx-auto mt-10 h-3/4 w-3/4 bg-sand" />
+                      <div className="flex h-full items-center justify-center text-xs text-muted-foreground">Image unavailable</div>
                     )}
                   </div>
                 </Button>
@@ -97,8 +100,11 @@ export function HangingRail({ products }: { products: Product[] }) {
             );
           })}
         </div>
+        {!products.length && <p className="absolute inset-x-0 top-32 text-center text-sm text-muted-foreground">No pieces on the rail yet.</p>}
       </div>
       <div className="mx-auto min-h-[240px] max-w-lg px-4 text-center">
+        {selected && <>
+        <Button variant="ghost" size="icon" className="mb-3" aria-label="Return clothing to rail" onClick={() => { setActive(null); setShowBack(false); setSelectedSize(null); }}><X className="h-4 w-4" /></Button>
         <div className="mb-4 inline-flex border border-border" role="group" aria-label="Clothing view">
           <Button variant={showBack ? "ghost" : "default"} className="min-w-20 rounded-none" aria-pressed={!showBack} onClick={() => setShowBack(false)}>Front</Button>
           <Button variant={showBack ? "default" : "ghost"} className="min-w-20 rounded-none" aria-pressed={showBack} disabled={!views.back} title={views.back ? "Show backside" : "Back photo unavailable"} onClick={() => setShowBack(true)}>Back</Button>
@@ -112,6 +118,7 @@ export function HangingRail({ products }: { products: Product[] }) {
           </div>}
           <Button asChild className="mt-5 rounded-none"><Link to="/product/$slug" params={{ slug: selected.slug }}>View product <ChevronRight /></Link></Button>
         </div>
+        </>}
       </div>
     </section>
   );
