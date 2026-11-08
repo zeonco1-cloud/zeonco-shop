@@ -8,6 +8,15 @@ import { HangingRail } from "@/components/site/HangingRail";
 import { shirtsOnRail } from "@/lib/clothing-rail";
 
 export const Route = createFileRoute("/")({
+  loader: async ({ context: { queryClient } }) => {
+    const [settings] = await Promise.all([
+      queryClient.ensureQueryData(settingsQuery()),
+      queryClient.ensureQueryData(categoriesQuery()),
+      queryClient.ensureQueryData(productsQuery()),
+      queryClient.ensureQueryData(galleryQuery()),
+    ]);
+    return { settings };
+  },
   head: ({ loaderData }) => ({
     meta: [
       { title: "ZEON.CO — Street Culture Redefined | Premium Streetwear India" },
@@ -16,19 +25,12 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Premium streetwear tees, shirts, denim and accessories from ZEON.CO." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      ...(loaderData?.[0]?.hero_image_url?.startsWith("https://") ? [
-        { property: "og:image", content: loaderData[0].hero_image_url },
-        { name: "twitter:image", content: loaderData[0].hero_image_url },
+      ...(loaderData?.settings?.hero_image_url?.startsWith("https://") ? [
+        { property: "og:image", content: loaderData.settings.hero_image_url },
+        { name: "twitter:image", content: loaderData.settings.hero_image_url },
       ] : []),
     ],
   }),
-  loader: ({ context: { queryClient } }) =>
-    Promise.all([
-      queryClient.ensureQueryData(settingsQuery()),
-      queryClient.ensureQueryData(categoriesQuery()),
-      queryClient.ensureQueryData(productsQuery()),
-      queryClient.ensureQueryData(galleryQuery()),
-    ]),
   component: Home,
 });
 
