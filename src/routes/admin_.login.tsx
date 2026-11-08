@@ -7,7 +7,7 @@ import { checkOwner } from "@/lib/admin";
 
 export const Route = createFileRoute("/admin_/login")({
   ssr: false,
-  head: () => ({ meta: [ { title: "Owner sign in — ZEON.CO Admin" }, { name: "description", content: "Sign in to manage the ZEON.CO store." }, { property: "og:title", content: "Owner sign in — ZEON.CO Admin" }, { property: "og:description", content: "Sign in to manage the ZEON.CO store." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex, nofollow" } ] }),
+  head: () => ({ meta: [{ title: "Owner sign in — ZEON.CO" }, { name: "robots", content: "noindex, nofollow" }] }),
   component: Login,
 });
 

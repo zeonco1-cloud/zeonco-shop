@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AdminTitle, btnPrimary } from "@/components/admin/ui";
 import { ImageList, type ImgItem } from "@/components/admin/ImageUploader";
 
-export const Route = createFileRoute("/admin/gallery")({ head: () => ({ meta: [ { title: "Fashion gallery — ZEON.CO Admin" }, { name: "description", content: "Manage ZEON.CO gallery images." }, { property: "og:title", content: "Fashion gallery — ZEON.CO Admin" }, { property: "og:description", content: "Manage ZEON.CO gallery images." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex, nofollow" } ] }), component: Gallery });
+export const Route = createFileRoute("/admin/gallery")({ component: Gallery });
 
 function Gallery() {
   const qc = useQueryClient();

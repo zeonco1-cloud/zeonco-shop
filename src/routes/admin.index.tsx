@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { normalizeWhatsApp } from "@/lib/pricing";
 import { AdminTitle, btnPrimary } from "@/components/admin/ui";
 
-export const Route = createFileRoute("/admin/")({ head: () => ({ meta: [ { title: "Overview — ZEON.CO Admin" }, { name: "description", content: "View the ZEON.CO store overview." }, { property: "og:title", content: "Overview — ZEON.CO Admin" }, { property: "og:description", content: "View the ZEON.CO store overview." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex, nofollow" } ] }), component: Overview });
+export const Route = createFileRoute("/admin/")({ component: Overview });
 
 function Overview() {
   const { data } = useQuery({

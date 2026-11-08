@@ -2,7 +2,6 @@ import { ArrowDown, ArrowUp, Loader2, Trash2, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { uploadImage } from "@/lib/admin";
-import { Button } from "@/components/ui/button";
 
 /** Single-image picker that uploads immediately and returns the stored URL. */
 export function SingleImage({ value, onChange, folder, label = "Upload image" }: { value: string | null | undefined; onChange: (url: string | null) => void; folder: string; label?: string }) {
@@ -27,10 +26,10 @@ export function SingleImage({ value, onChange, folder, label = "Upload image" }:
       </div>
       <div className="flex flex-col gap-2">
         <input ref={ref} type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="hidden" onChange={(e) => pick(e.target.files?.[0])} />
-        <Button variant="outline" type="button" onClick={() => ref.current?.click()} disabled={busy} className="eyebrow inline-flex items-center gap-2 border border-foreground px-3 py-2">
+        <button type="button" onClick={() => ref.current?.click()} disabled={busy} className="eyebrow inline-flex items-center gap-2 border border-foreground px-3 py-2">
           {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />} {busy ? "Uploading…" : label}
-        </Button>
-        {value && <Button variant="ghost" size="icon" type="button" onClick={() => onChange(null)} aria-label={`Remove ${label.replace("Upload ", "")} image`} title="Remove image"><Trash2 className="h-4 w-4" /></Button>}
+        </button>
+        {value && <button type="button" onClick={() => onChange(null)} className="text-left text-xs underline">Remove</button>}
       </div>
     </div>
   );
@@ -63,9 +62,7 @@ export function ImageList({ items, onChange, folder }: { items: ImgItem[]; onCha
     const j = i + d;
     if (j < 0 || j >= items.length) return;
     const next = [...items];
-    const t = next[i]; const other = next[j];
-    if (!t || !other) return;
-    next[i] = other; next[j] = t;
+    const t = next[i]!; next[i] = next[j]!; next[j] = t;
     onChange(next);
   };
   return (

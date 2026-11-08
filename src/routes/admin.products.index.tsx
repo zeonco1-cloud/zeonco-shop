@@ -6,7 +6,7 @@ import { formatINR } from "@/lib/pricing";
 import { stockLabel } from "@/lib/store";
 import { AdminTitle, btnPrimary, inputCls } from "@/components/admin/ui";
 
-export const Route = createFileRoute("/admin/products/")({ head: () => ({ meta: [ { title: "Products — ZEON.CO Admin" }, { name: "description", content: "Manage ZEON.CO products and inventory." }, { property: "og:title", content: "Products — ZEON.CO Admin" }, { property: "og:description", content: "Manage ZEON.CO products and inventory." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex, nofollow" } ] }), component: Products });
+export const Route = createFileRoute("/admin/products/")({ component: Products });
 
 function Products() {
   const [q, setQ] = useState("");

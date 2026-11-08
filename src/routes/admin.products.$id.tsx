@@ -8,20 +8,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { discountPercent, slugify } from "@/lib/pricing";
 import { AdminTitle, Field, Panel, Toggle, btnGhost, btnPrimary, inputCls } from "@/components/admin/ui";
 import { ImageList, type ImgItem } from "@/components/admin/ImageUploader";
-import { FrontBackImages } from "@/components/admin/FrontBackImages";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
-export const Route = createFileRoute("/admin/products/$id")({
-  head: () => ({ meta: [
-    { title: "Product editor — ZEON.CO Admin" },
-    { name: "description", content: "Manage ZEON.CO product details, sizes and front and back images." },
-    { property: "og:title", content: "Product editor — ZEON.CO Admin" },
-    { property: "og:description", content: "Manage ZEON.CO product details, sizes and front and back images." },
-    { property: "og:type", content: "website" },
-    { name: "twitter:card", content: "summary" },
-    { name: "robots", content: "noindex, nofollow" },
-  ] }), component: Editor,
-});
+export const Route = createFileRoute("/admin/products/$id")({ component: Editor });
 
 type Color = { name: string; hex: string };
 const empty = {
@@ -108,14 +97,10 @@ function Editor() {
       } else {
         const { error } = await supabase.from("products").update(row).eq("id", id);
         if (error) throw error;
+        await supabase.from("product_images").delete().eq("product_id", id);
       }
       if (images.length) {
         const { error } = await supabase.from("product_images").insert(images.map((im, i) => ({ product_id: pid, url: im.url, alt: im.alt.slice(0, 150), sort_order: i })));
-        if (error) throw error;
-      }
-      const previousIds = existing?.product_images.map((image) => image.id) ?? [];
-      if (!isNew && previousIds.length) {
-        const { error } = await supabase.from("product_images").delete().in("id", previousIds);
         if (error) throw error;
       }
       await qc.invalidateQueries();
@@ -161,7 +146,7 @@ function Editor() {
             <Field label="Full description" htmlFor="desc"><textarea id="desc" rows={5} className={inputCls} maxLength={5000} value={f.description} onChange={(e) => set("description", e.target.value)} /></Field>
             <Field label="Fabric / material" htmlFor="fab"><input id="fab" className={inputCls} maxLength={300} value={f.fabric} onChange={(e) => set("fabric", e.target.value)} /></Field>
           </Panel>
-          <Panel title="Images"><FrontBackImages items={images} onChange={setImages} /><ImageList items={images} onChange={setImages} folder="products" /></Panel>
+          <Panel title="Images"><ImageList items={images} onChange={setImages} folder="products" /></Panel>
           <Panel title="Variants">
             <Field label="Sizes" htmlFor="sizes" hint="Comma separated, e.g. S, M, L, XL"><input id="sizes" className={inputCls} value={f.sizes} onChange={(e) => set("sizes", e.target.value)} /></Field>
             <div>

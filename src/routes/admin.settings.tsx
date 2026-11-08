@@ -8,7 +8,7 @@ import type { Settings, SizeGuide } from "@/lib/store";
 import { AdminTitle, Field, Panel, Toggle, btnPrimary, inputCls } from "@/components/admin/ui";
 import { SingleImage } from "@/components/admin/ImageUploader";
 
-export const Route = createFileRoute("/admin/settings")({ head: () => ({ meta: [ { title: "Store settings — ZEON.CO Admin" }, { name: "description", content: "Manage ZEON.CO store and contact settings." }, { property: "og:title", content: "Store settings — ZEON.CO Admin" }, { property: "og:description", content: "Manage ZEON.CO store and contact settings." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex, nofollow" } ] }), component: SettingsPage });
+export const Route = createFileRoute("/admin/settings")({ component: SettingsPage });
 
 const urlOk = (u: string) => !u || /^https:\/\/[^\s]+$/.test(u);
 

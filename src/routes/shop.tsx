@@ -11,8 +11,6 @@ export const Route = createFileRoute("/shop")({
       { name: "description", content: "Shop ZEON.CO streetwear: tees, shirts, jeans and accessories. Filter by size, color and price." },
       { property: "og:title", content: "Shop all — ZEON.CO" },
       { property: "og:description", content: "Browse the full ZEON.CO streetwear collection." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   loader: ({ context: { queryClient } }) => Promise.all([queryClient.ensureQueryData(productsQuery()), queryClient.ensureQueryData(categoriesQuery())]),
