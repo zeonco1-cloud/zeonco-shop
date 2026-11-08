@@ -163,7 +163,7 @@
 .rail-wood { fill: var(--rail-hanger-wood); stroke: var(--rail); stroke-width: 1; }
 .rail-shirt { position: absolute; top: 35px; width: 100%; height: 225px; transform-style: preserve-3d; transition: transform 650ms cubic-bezier(.22,.8,.25,1); }
 .rail-shirt-back { transform: rotateY(180deg); }
-.rail-shirt.rail-shirt-demo { top: 38px; height: 222px; }
+.rail-shirt.rail-shirt-demo { top: -9px; height: 250px; }
 .rail-has-selection .rail-garment:not(.rail-selected) { filter: blur(3px); opacity: .38; }
 .rail-garment.rail-selected { transform: translate3d(var(--rail-offset), 26px, 150px) rotateY(0deg) scale(1.15); }
 .rail-garment:focus-visible { outline-offset: 4px; }
@@ -173,7 +173,7 @@
   .rail-garment { width: 154px; height: 235px; margin-left: -42px; }
   .rail-hanger { width: 116px; left: 19px; height: 45px; }
   .rail-shirt { top: 32px; height: 198px; }
-  .rail-shirt.rail-shirt-demo { top: 34px; height: 196px; }
+  .rail-shirt.rail-shirt-demo { top: -9px; height: 220px; }
   .rail-garment.rail-selected { transform: translate3d(var(--rail-offset), 24px, 110px) rotateY(0deg) scale(1.12); }
 }
 .rail-view { backface-visibility: hidden; }

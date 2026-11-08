@@ -8,14 +8,6 @@ import { PriceTag } from "./ProductCard";
 
 export { railSizes, railViews } from "@/lib/clothing-rail";
 
-function Hanger() {
-  return <svg aria-hidden="true" viewBox="0 0 180 70" className="rail-hanger">
-    <path className="rail-hook" d="M90 25V17c0-5 9-6 9-12a9 9 0 0 0-18 0" />
-    <path className="rail-wood" d="M90 24 18 54Q12 59 20 62H160Q168 59 162 54L90 24Z" />
-    <path className="rail-hook" d="m33 54 57-23 57 23" />
-  </svg>;
-}
-
 export function HangingRail({ products }: { products: Product[] }) {
   const scroller = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string | null>(null);
@@ -85,8 +77,7 @@ export function HangingRail({ products }: { products: Product[] }) {
                   style={{ "--rail-offset": `${isActive ? offset : 0}px` } as CSSProperties}
                   className={`rail-garment rounded-none p-0 hover:bg-transparent ${isActive ? "rail-selected" : ""}`}
                 >
-                  <Hanger />
-                  <div className={`rail-shirt ${p.is_demo ? "rail-shirt-demo" : ""} ${isActive && showBack && images.back ? "rail-shirt-back" : ""}`}>
+                                    <div className={`rail-shirt rail-shirt-demo ${isActive && showBack && images.back ? "rail-shirt-back" : ""}`}>
                     {images.front ? (
                       <>
                         <img src={images.front} alt={`${p.name} — front`} loading="lazy" width={300} height={400} className="rail-view rail-view-front absolute inset-0 h-full w-full object-contain object-top shadow-garment" />
