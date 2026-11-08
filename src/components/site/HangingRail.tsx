@@ -85,7 +85,7 @@ export function HangingRail({ products }: { products: Product[] }) {
                   style={{ "--rail-offset": `${isActive ? offset : 0}px` } as CSSProperties}
                   className={`rail-garment rounded-none p-0 hover:bg-transparent ${isActive ? "rail-selected" : ""}`}
                 >
-                  {!p.is_demo && <Hanger />}
+                  <Hanger />
                   <div className={`rail-shirt ${p.is_demo ? "rail-shirt-demo" : ""} ${isActive && showBack && images.back ? "rail-shirt-back" : ""}`}>
                     {images.front ? (
                       <>
