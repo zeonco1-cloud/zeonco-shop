@@ -15,8 +15,9 @@ export function railSizes(product: Pick<Product, "sizes">) {
 }
 
 export function shirtsOnRail(products: Product[]) {
-  return products.filter((p) => p.in_rail && p.published && !p.is_demo && ["shirts", "t-shirts", "tshirts"].includes(p.categories?.slug ?? ""))
-    .sort((a, b) => a.rail_order - b.rail_order);
+  const eligible = products.filter((p) => p.in_rail && p.published && ["shirts", "t-shirts", "tshirts"].includes(p.categories?.slug ?? ""));
+  const real = eligible.filter((p) => !p.is_demo);
+  return (real.length ? real : eligible).sort((a, b) => a.rail_order - b.rail_order);
 }
 
 export function replaceRailImage<T extends RailImage>(images: T[], side: "front" | "back", url: string | null): RailImage[] {

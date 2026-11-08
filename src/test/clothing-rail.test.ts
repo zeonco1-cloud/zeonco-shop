@@ -29,4 +29,8 @@ describe("clothing rail product data", () => {
     const p = (id: string, slug: string, extra = {}) => ({ id, categories: { slug }, in_rail: true, published: true, is_demo: false, rail_order: 0, ...extra }) as Product;
     expect(shirtsOnRail([p("shirt", "shirts"), p("tee", "t-shirts"), p("jeans", "jeans"), p("demo", "shirts", { is_demo: true }), p("draft", "shirts", { published: false }), p("off", "shirts", { in_rail: false })]).map((item) => item.id)).toEqual(["shirt", "tee"]);
   });
+  it("shows demo shirts and T-shirts when real rail inventory is unavailable", () => {
+    const demo = (id: string, slug: string, extra = {}) => ({ id, categories: { slug }, in_rail: true, published: true, is_demo: true, rail_order: 0, ...extra }) as Product;
+    expect(shirtsOnRail([demo("tee", "t-shirts"), demo("shirt", "shirts"), demo("jeans", "jeans"), demo("draft", "shirts", { published: false }), demo("off", "shirts", { in_rail: false })]).map((p) => p.id)).toEqual(["tee", "shirt"]);
+  });
 });

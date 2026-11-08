@@ -66,7 +66,7 @@ export function HangingRail({ products }: { products: Product[] }) {
           role="list"
           onScroll={() => { if (active) { setActive(null); setShowBack(false); setSelectedSize(null); } }}
         >
-          {products.map((p) => {
+          {products.map((p, index) => {
             const images = railViews(p);
             const isActive = selected?.id === p.id;
             return (
@@ -74,6 +74,7 @@ export function HangingRail({ products }: { products: Product[] }) {
                 key={p.id}
                 role="listitem"
                 className={`rail-slot ${isActive ? "z-20" : "z-0"}`}
+                style={{ "--rail-entry-delay": `${index * 85}ms` } as CSSProperties}
               >
                 <Button
                   variant="ghost"
@@ -84,12 +85,12 @@ export function HangingRail({ products }: { products: Product[] }) {
                   style={{ "--rail-offset": `${isActive ? offset : 0}px` } as CSSProperties}
                   className={`rail-garment rounded-none p-0 hover:bg-transparent ${isActive ? "rail-selected" : ""}`}
                 >
-                  <Hanger />
-                  <div className="rail-shirt">
+                  {!p.is_demo && <Hanger />}
+                  <div className={`rail-shirt ${p.is_demo ? "rail-shirt-demo" : ""} ${isActive && showBack && images.back ? "rail-shirt-back" : ""}`}>
                     {images.front ? (
                       <>
-                        <img src={images.front} alt={`${p.name} — front`} loading="lazy" width={300} height={400} className={`rail-view absolute inset-0 h-full w-full object-contain object-top shadow-garment ${isActive && showBack && images.back ? "opacity-0" : "opacity-100"}`} />
-                        {images.back && <img src={images.back} alt={`${p.name} — back`} loading="lazy" width={300} height={400} className={`rail-view absolute inset-0 h-full w-full object-contain object-top shadow-garment ${isActive && showBack ? "opacity-100" : "opacity-0"}`} />}
+                        <img src={images.front} alt={`${p.name} — front`} loading="lazy" width={300} height={400} className="rail-view rail-view-front absolute inset-0 h-full w-full object-contain object-top shadow-garment" />
+                        {images.back && <img src={images.back} alt={`${p.name} — back`} loading="lazy" width={300} height={400} className="rail-view rail-view-back absolute inset-0 h-full w-full object-contain object-top shadow-garment" />}
                       </>
                     ) : (
                       <div className="flex h-full items-center justify-center text-xs text-muted-foreground">Image unavailable</div>
@@ -112,6 +113,7 @@ export function HangingRail({ products }: { products: Product[] }) {
         {!views.back && <p className="mb-3 text-xs text-muted-foreground">Back photo unavailable</p>}
         <div key={selected.id} className="rail-details">
           <h3 className="break-words text-base font-semibold">{selected.name}</h3>
+          {selected.is_demo && <p className="mt-1 text-xs text-muted-foreground">Demo product</p>}
           <div className="mt-2 flex justify-center"><PriceTag price={Number(selected.price)} original={selected.original_price != null ? Number(selected.original_price) : null} /></div>
           {sizes.length > 0 && <div className="mt-4 flex flex-wrap justify-center gap-2" role="group" aria-label="Available sizes">
             {sizes.map((size) => <Button key={size} variant={selectedSize === size ? "default" : "outline"} aria-pressed={selectedSize === size} onClick={() => setSelectedSize(size)} className="min-w-11 max-w-full whitespace-normal break-words rounded-none bg-transparent px-3 aria-pressed:bg-primary">{size}</Button>)}

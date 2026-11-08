@@ -156,12 +156,14 @@
 .rail-bar span { position: absolute; top: -5px; width: 5px; height: 16px; border-radius: 2px; background: var(--gradient-rail-metal); }
 .rail-bar span:last-child { right: 0; }
 .rail-track { position: relative; display: flex; justify-content: safe center; gap: 0; overflow-x: auto; overflow-y: hidden; padding: 18px 95px 90px; min-height: 395px; perspective: 1000px; }
-.rail-slot { position: relative; width: 105px; flex: 0 0 105px; height: 270px; }
+.rail-slot { position: relative; width: 105px; flex: 0 0 105px; height: 270px; animation: rail-enter 650ms ease both; animation-delay: var(--rail-entry-delay, 0ms); }
 .rail-garment { display: block; position: relative; width: 180px; height: 265px; margin-left: -37.5px; transform-origin: 50% 8px; transform: rotateY(58deg); transition: transform 750ms cubic-bezier(.22,.8,.25,1), filter 650ms ease, opacity 650ms ease; background: transparent; }
 .rail-hanger { position: absolute; width: 132px; height: 51px; top: 0; left: 24px; overflow: visible; }
 .rail-hook { fill: none; stroke: var(--rail-metal-dark); stroke-width: 1.8; stroke-linecap: round; }
 .rail-wood { fill: var(--rail-hanger-wood); stroke: var(--rail); stroke-width: 1; }
-.rail-shirt { position: absolute; top: 35px; width: 100%; height: 225px; }
+.rail-shirt { position: absolute; top: 35px; width: 100%; height: 225px; transform-style: preserve-3d; transition: transform 650ms cubic-bezier(.22,.8,.25,1); }
+.rail-shirt-back { transform: rotateY(180deg); }
+.rail-shirt.rail-shirt-demo { top: 0; height: 260px; }
 .rail-has-selection .rail-garment:not(.rail-selected) { filter: blur(3px); opacity: .38; }
 .rail-garment.rail-selected { transform: translate3d(var(--rail-offset), 26px, 150px) rotateY(0deg) scale(1.15); }
 .rail-garment:focus-visible { outline-offset: 4px; }
@@ -171,9 +173,12 @@
   .rail-garment { width: 154px; height: 235px; margin-left: -42px; }
   .rail-hanger { width: 116px; left: 19px; height: 45px; }
   .rail-shirt { top: 32px; height: 198px; }
+  .rail-shirt.rail-shirt-demo { top: 0; height: 230px; }
   .rail-garment.rail-selected { transform: translate3d(var(--rail-offset), 24px, 110px) rotateY(0deg) scale(1.12); }
 }
-.rail-view { transition: opacity 450ms ease; }
+.rail-view { backface-visibility: hidden; }
+.rail-view-back { transform: rotateY(180deg); }
+@keyframes rail-enter { from { opacity: 0; translate: 0 -12px; } to { opacity: 1; translate: 0 0; } }
 .rail-details { animation: rise 450ms ease both; }
 
 @media (prefers-reduced-motion: reduce) {

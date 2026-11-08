@@ -9,6 +9,14 @@ vi.mock("@/components/site/ProductCard", () => ({ PriceTag: () => null }));
 const products = ["Shirt", "T-shirt"].map((name, i) => ({ id: name, name, slug: name, sizes: ["M", "XL"], price: 1250, original_price: null, product_images: [{ url: `${i}.png`, alt: "Front" }] }) as Product);
 
 describe("rail selection", () => {
+  it("keeps Back unavailable when a demo product has no backside photo", () => {
+    render(<HangingRail products={products.map((p) => ({ ...p, is_demo: true }))} />);
+    fireEvent.click(screen.getByRole("button", { name: "Shirt — select clothing" }));
+    expect(screen.getByRole("button", { name: "Back" }).hasAttribute("disabled")).toBe(true);
+    fireEvent.click(screen.getByRole("button", { name: "XL" }));
+    expect(screen.getByRole("button", { name: "XL" }).getAttribute("aria-pressed")).toBe("true");
+    cleanup();
+  });
   it("starts unselected and ignores pointer movement; only click selects and return clears selection", () => {
     render(<HangingRail products={products} />);
     const first = screen.getByRole("button", { name: "Shirt — select clothing" });
