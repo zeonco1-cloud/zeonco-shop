@@ -97,6 +97,10 @@
   --gradient-rail-wall: radial-gradient(ellipse at 50% 0%, var(--card) 0%, var(--secondary) 75%);
   --shadow-garment: 0 24px 30px -18px color-mix(in oklab, var(--ink) 45%, transparent);
   --shadow-rail: 0 6px 10px -4px color-mix(in oklab, var(--ink) 40%, transparent);
+  --chrome-dark: oklch(0.48 0.004 250);
+  --chrome-mid: oklch(0.74 0.004 250);
+  --chrome-light: oklch(0.98 0.002 250);
+  --gradient-rail-chrome: linear-gradient(180deg, var(--chrome-mid) 0%, var(--chrome-light) 23%, var(--chrome-mid) 45%, var(--chrome-dark) 68%, var(--chrome-light) 88%, var(--chrome-mid) 100%);
 }
 
 @layer base {
@@ -150,6 +154,20 @@
 .rail-garment { transition: transform 600ms ease, filter 600ms ease, opacity 600ms ease; }
 .rail-view { transition: opacity 450ms ease; }
 .rail-details { animation: rise 450ms ease both; }
+.rail-chrome { background: var(--gradient-rail-chrome); }
+/* Existing demo cutouts include transparent space above their hanger hooks. */
+.rail-view[src$="/demo/tee-black.png"] { top: -6%; }
+.rail-view[src$="/demo/tee-sand.png"],
+.rail-view[src$="/demo/shirt-espresso.png"],
+.rail-view[src$="/demo/shirt-cream.png"] { top: -1%; }
+@keyframes rail-sway {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(1.5deg); }
+  45% { transform: rotate(-1.1deg); }
+  70% { transform: rotate(0.6deg); }
+  88% { transform: rotate(-0.25deg); }
+}
+.rail-sway { animation: rail-sway 1600ms ease-in-out both; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }

@@ -21,16 +21,21 @@ export function HangingRail({ products }: { products: Product[] }) {
   const [active, setActive] = useState<string | null>(null);
   const [showBack, setShowBack] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [swayCycle, setSwayCycle] = useState(0);
   if (!products.length) return null;
 
   const selected = products.find((p) => p.id === active) ?? products[0];
   if (!selected) return null;
   const views = railViews(selected);
   const sizes = railSizes(selected);
-  const scrollBy = (dir: number) => scroller.current?.scrollBy({ left: dir * scroller.current.clientWidth * 0.7, behavior: "smooth" });
+  const scrollBy = (dir: number) => {
+    setSwayCycle((cycle) => cycle + 1);
+    scroller.current?.scrollBy({ left: dir * scroller.current.clientWidth * 0.7, behavior: "smooth" });
+  };
   const activate = (id: string, item: HTMLButtonElement) => {
     if (id === selected.id) return;
     setActive(id);
+    setSwayCycle((cycle) => cycle + 1);
     setShowBack(false);
     setSelectedSize(null);
     const container = scroller.current;
@@ -59,10 +64,12 @@ export function HangingRail({ products }: { products: Product[] }) {
 
       <div className="relative mt-10">
         {/* rail bar */}
-        <div aria-hidden className="pointer-events-none absolute left-0 right-0 top-[48px] h-2.5 rounded-full bg-rail shadow-rail" />
+        <div aria-hidden className="rail-chrome pointer-events-none absolute left-0 right-0 top-[48px] h-2.5 rounded-full shadow-rail" />
         <div
           ref={scroller}
-          className="scrollbar-none relative flex snap-x snap-mandatory gap-2 overflow-x-auto px-12 pb-20 pt-[30px] md:gap-6 md:px-20"
+          className="scrollbar-none relative flex snap-x snap-mandatory gap-2 overflow-x-auto px-12 pb-24 pt-[48px] md:gap-6 md:px-20"
+          onTouchStart={() => setSwayCycle((cycle) => cycle + 1)}
+          onWheel={() => setSwayCycle((cycle) => cycle + 1)}
           role="list"
         >
           {products.map((p) => {
@@ -80,9 +87,9 @@ export function HangingRail({ products }: { products: Product[] }) {
                   onClick={(event) => activate(p.id, event.currentTarget)}
                   aria-pressed={isActive}
                   aria-label={`${p.name} — select clothing`}
-                  className={`rail-garment relative block h-auto w-full origin-top rounded-none p-0 hover:bg-transparent ${isActive ? "translate-y-4 scale-[1.22]" : "scale-100 blur-[3px] opacity-55"}`}
+                  className={`rail-garment relative block h-auto w-full origin-top rounded-none p-0 hover:bg-transparent ${isActive ? "scale-[1.22]" : "scale-100"}`}
                 >
-                  <div className="relative aspect-[3/4] w-full">
+                  <div key={swayCycle} className={`relative aspect-[3/4] w-full origin-top ${swayCycle > 0 ? "rail-sway" : ""}`}>
                     {images.front ? (
                       <>
                         <img src={images.front} alt={`${p.name} — front`} loading="lazy" width={300} height={400} className={`rail-view absolute inset-0 h-full w-full object-contain object-top shadow-garment ${isActive && showBack && images.back ? "opacity-0" : "opacity-100"}`} />
