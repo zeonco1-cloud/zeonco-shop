@@ -212,6 +212,7 @@ export type Database = {
           instagram_url: string
           logo_url: string | null
           privacy_text: string
+          selected_reels: Json
           seo_description: string
           seo_title: string
           show_best_sellers: boolean
@@ -247,6 +248,7 @@ export type Database = {
           instagram_url?: string
           logo_url?: string | null
           privacy_text?: string
+          selected_reels?: Json
           seo_description?: string
           seo_title?: string
           show_best_sellers?: boolean
@@ -282,6 +284,7 @@ export type Database = {
           instagram_url?: string
           logo_url?: string | null
           privacy_text?: string
+          selected_reels?: Json
           seo_description?: string
           seo_title?: string
           show_best_sellers?: boolean

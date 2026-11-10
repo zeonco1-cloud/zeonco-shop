@@ -1,0 +1,2 @@
+ALTER TABLE public.store_settings ADD COLUMN selected_reels jsonb NOT NULL DEFAULT '[{"id":"DewaNaONx_3","url":"https://www.instagram.com/reel/DewaNaONx_3/","title":""}]'::jsonb;
+COMMENT ON COLUMN public.store_settings.selected_reels IS 'Owner-curated Instagram reels in display order; managed through existing owner-only settings UPDATE policy.';

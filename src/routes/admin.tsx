@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, redirect, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { ExternalLink, Image, LayoutDashboard, LogOut, Package, Settings, Tags } from "lucide-react";
+import { ExternalLink, Image, Instagram, LayoutDashboard, LogOut, Package, Settings, Tags } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { checkOwner } from "@/lib/admin";
 
@@ -21,6 +21,7 @@ const links = [
   { to: "/admin/products", label: "Products", icon: Package },
   { to: "/admin/categories", label: "Categories", icon: Tags },
   { to: "/admin/gallery", label: "Gallery", icon: Image },
+  { to: "/admin/reels", label: "Reels", icon: Instagram },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ] as const;
 

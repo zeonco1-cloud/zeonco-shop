@@ -15,6 +15,13 @@
       "when": 1793013665635,
       "tag": "0001_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794298488681,
+      "tag": "0002_add_curated_instagram_reels",
+      "breakpoints": true
     }
   ]
 }
