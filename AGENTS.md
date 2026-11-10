@@ -15,3 +15,4 @@
 - Public storefront reads go through query options in `src/lib/store.ts` with SSR query hydration; price/discount/WhatsApp rules live in `src/lib/pricing.ts` with tests.
 - Clothing rail front/back views use product image alt labels containing back/backside/rear; never substitute an unrelated photo for a missing backside. This preserves truthful product imagery without changing the schema.
 - Rail selection scaling and navigation sway use separate nested transforms anchored at the hanger contact point, so enlargement does not detach hangers or move sibling slots.
+- The reels section renders an explicit curated list using Instagram embeds, never an automatic account feed, so only owner-selected reels appear.

@@ -5,6 +5,7 @@ import { categoriesQuery, galleryQuery, productsQuery, settingsQuery } from "@/l
 import { discountPercent } from "@/lib/pricing";
 import { ProductGrid } from "@/components/site/ProductCard";
 import { HangingRail } from "@/components/site/HangingRail";
+import { InstagramReels } from "@/components/site/InstagramReels";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -128,6 +129,8 @@ function Home() {
           </div>
         </section>
       )}
+
+      <InstagramReels />
 
       {s?.show_gallery !== false && gallery.length > 0 && (
         <section className="mx-auto max-w-7xl px-4 py-16 md:px-8 md:py-24">
