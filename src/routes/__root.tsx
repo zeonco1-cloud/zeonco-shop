@@ -16,6 +16,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { Toaster } from "@/components/ui/sonner";
+import { SupportLauncher } from "@/components/support/SupportLauncher";
 import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
@@ -119,6 +120,7 @@ function RootComponent() {
             <Outlet />
           </main>
           <SiteFooter />
+          <SupportLauncher />
         </div>
       )}
       <Toaster position="top-center" />

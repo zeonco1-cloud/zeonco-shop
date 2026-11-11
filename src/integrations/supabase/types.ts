@@ -303,6 +303,83 @@ export type Database = {
         }
         Relationships: []
       }
+      support_messages: {
+        Row: {
+          content: string
+          created_at: string
+          delivery_error: Json | null
+          delivery_status: string | null
+          id: string
+          provider_message_id: string | null
+          reply_to: string | null
+          role: string
+          status_at: string | null
+          thread_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          delivery_error?: Json | null
+          delivery_status?: string | null
+          id?: string
+          provider_message_id?: string | null
+          reply_to?: string | null
+          role: string
+          status_at?: string | null
+          thread_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          delivery_error?: Json | null
+          delivery_status?: string | null
+          id?: string
+          provider_message_id?: string | null
+          reply_to?: string | null
+          role?: string
+          status_at?: string | null
+          thread_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "support_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_threads: {
+        Row: {
+          channel: string
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          visitor_hash: string | null
+          whatsapp_phone: string | null
+        }
+        Insert: {
+          channel?: string
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          visitor_hash?: string | null
+          whatsapp_phone?: string | null
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          visitor_hash?: string | null
+          whatsapp_phone?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -321,6 +398,42 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
+        }
+        Relationships: []
+      }
+      whatsapp_webhook_events: {
+        Row: {
+          attempts: number
+          delivery_id: string
+          event: string
+          id: string
+          next_attempt_at: string
+          payload: Json
+          processed_at: string | null
+          processing_error: string | null
+          received_at: string
+        }
+        Insert: {
+          attempts?: number
+          delivery_id: string
+          event: string
+          id?: string
+          next_attempt_at?: string
+          payload: Json
+          processed_at?: string | null
+          processing_error?: string | null
+          received_at?: string
+        }
+        Update: {
+          attempts?: number
+          delivery_id?: string
+          event?: string
+          id?: string
+          next_attempt_at?: string
+          payload?: Json
+          processed_at?: string | null
+          processing_error?: string | null
+          received_at?: string
         }
         Relationships: []
       }

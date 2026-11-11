@@ -16,6 +16,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SizeGuideRouteImport } from './routes/size-guide'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -26,8 +27,11 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as SupportIndexRouteImport } from './routes/support.index'
+import { Route as SupportThreadIdRouteImport } from './routes/support.$threadId'
 import { Route as AdminProductsIndexRouteImport } from './routes/admin.products.index'
 import { Route as AdminProductsIdRouteImport } from './routes/admin.products.$id'
+import { Route as ApiPublicSupportChatRouteImport } from './routes/api/public/support/chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -62,6 +66,11 @@ const ShopRoute = ShopRouteImport.update({
 const SizeGuideRoute = SizeGuideRouteImport.update({
   id: '/size-guide',
   path: '/size-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -114,6 +123,16 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
   path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SupportIndexRoute = SupportIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SupportRoute,
+} as any)
+const SupportThreadIdRoute = SupportThreadIdRouteImport.update({
+  id: '/$threadId',
+  path: '/$threadId',
+  getParentRoute: () => SupportRoute,
+} as any)
 const AdminProductsIndexRoute = AdminProductsIndexRouteImport.update({
   id: '/products/',
   path: '/products/',
@@ -124,6 +143,11 @@ const AdminProductsIdRoute = AdminProductsIdRouteImport.update({
   path: '/products/$id',
   getParentRoute: () => AdminRoute,
 } as any)
+const ApiPublicSupportChatRoute = ApiPublicSupportChatRouteImport.update({
+  id: '/api/public/support/chat',
+  path: '/api/public/support/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -133,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/shop': typeof ShopRoute
   '/size-guide': typeof SizeGuideRoute
+  '/support': typeof SupportRouteWithChildren
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -142,9 +167,12 @@ export interface FileRoutesByFullPath {
   '/admin/login': typeof AdminLoginRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/support/$threadId': typeof SupportThreadIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/support/': typeof SupportIndexRoute
   '/admin/products/$id': typeof AdminProductsIdRoute
   '/admin/products/': typeof AdminProductsIndexRoute
+  '/api/public/support/chat': typeof ApiPublicSupportChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -162,9 +190,12 @@ export interface FileRoutesByTo {
   '/admin/login': typeof AdminLoginRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/support/$threadId': typeof SupportThreadIdRoute
   '/admin': typeof AdminIndexRoute
+  '/support': typeof SupportIndexRoute
   '/admin/products/$id': typeof AdminProductsIdRoute
   '/admin/products': typeof AdminProductsIndexRoute
+  '/api/public/support/chat': typeof ApiPublicSupportChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -175,6 +206,7 @@ export interface FileRoutesById {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/shop': typeof ShopRoute
   '/size-guide': typeof SizeGuideRoute
+  '/support': typeof SupportRouteWithChildren
   '/terms': typeof TermsRoute
   '/wishlist': typeof WishlistRoute
   '/admin/categories': typeof AdminCategoriesRoute
@@ -184,9 +216,12 @@ export interface FileRoutesById {
   '/admin_/login': typeof AdminLoginRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/support/$threadId': typeof SupportThreadIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/support/': typeof SupportIndexRoute
   '/admin/products/$id': typeof AdminProductsIdRoute
   '/admin/products/': typeof AdminProductsIndexRoute
+  '/api/public/support/chat': typeof ApiPublicSupportChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -198,6 +233,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/shop'
     | '/size-guide'
+    | '/support'
     | '/terms'
     | '/wishlist'
     | '/admin/categories'
@@ -207,9 +243,12 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/category/$slug'
     | '/product/$slug'
+    | '/support/$threadId'
     | '/admin/'
+    | '/support/'
     | '/admin/products/$id'
     | '/admin/products/'
+    | '/api/public/support/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -227,9 +266,12 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/category/$slug'
     | '/product/$slug'
+    | '/support/$threadId'
     | '/admin'
+    | '/support'
     | '/admin/products/$id'
     | '/admin/products'
+    | '/api/public/support/chat'
   id:
     | '__root__'
     | '/'
@@ -239,6 +281,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/shop'
     | '/size-guide'
+    | '/support'
     | '/terms'
     | '/wishlist'
     | '/admin/categories'
@@ -248,9 +291,12 @@ export interface FileRouteTypes {
     | '/admin_/login'
     | '/category/$slug'
     | '/product/$slug'
+    | '/support/$threadId'
     | '/admin/'
+    | '/support/'
     | '/admin/products/$id'
     | '/admin/products/'
+    | '/api/public/support/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -261,11 +307,13 @@ export interface RootRouteChildren {
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ShopRoute: typeof ShopRoute
   SizeGuideRoute: typeof SizeGuideRoute
+  SupportRoute: typeof SupportRouteWithChildren
   TermsRoute: typeof TermsRoute
   WishlistRoute: typeof WishlistRoute
   AdminLoginRoute: typeof AdminLoginRoute
   CategorySlugRoute: typeof CategorySlugRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  ApiPublicSupportChatRoute: typeof ApiPublicSupportChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -317,6 +365,13 @@ declare module '@tanstack/react-router' {
       path: '/size-guide'
       fullPath: '/size-guide'
       preLoaderRoute: typeof SizeGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -389,6 +444,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/support/': {
+      id: '/support/'
+      path: '/'
+      fullPath: '/support/'
+      preLoaderRoute: typeof SupportIndexRouteImport
+      parentRoute: typeof SupportRoute
+    }
+    '/support/$threadId': {
+      id: '/support/$threadId'
+      path: '/$threadId'
+      fullPath: '/support/$threadId'
+      preLoaderRoute: typeof SupportThreadIdRouteImport
+      parentRoute: typeof SupportRoute
+    }
     '/admin/products/': {
       id: '/admin/products/'
       path: '/products'
@@ -402,6 +471,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/products/$id'
       preLoaderRoute: typeof AdminProductsIdRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/api/public/support/chat': {
+      id: '/api/public/support/chat'
+      path: '/api/public/support/chat'
+      fullPath: '/api/public/support/chat'
+      preLoaderRoute: typeof ApiPublicSupportChatRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -428,6 +504,19 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface SupportRouteChildren {
+  SupportThreadIdRoute: typeof SupportThreadIdRoute
+  SupportIndexRoute: typeof SupportIndexRoute
+}
+
+const SupportRouteChildren: SupportRouteChildren = {
+  SupportThreadIdRoute: SupportThreadIdRoute,
+  SupportIndexRoute: SupportIndexRoute,
+}
+
+const SupportRouteWithChildren =
+  SupportRoute._addFileChildren(SupportRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -436,11 +525,13 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ShopRoute: ShopRoute,
   SizeGuideRoute: SizeGuideRoute,
+  SupportRoute: SupportRouteWithChildren,
   TermsRoute: TermsRoute,
   WishlistRoute: WishlistRoute,
   AdminLoginRoute: AdminLoginRoute,
   CategorySlugRoute: CategorySlugRoute,
   ProductSlugRoute: ProductSlugRoute,
+  ApiPublicSupportChatRoute: ApiPublicSupportChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
